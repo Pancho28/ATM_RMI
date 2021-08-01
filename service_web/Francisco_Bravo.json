@@ -1,0 +1,1356 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Este es el diseño de un servicio web que consiste en la gestión de facultades, escuelas, secciones, alumnos y profesores, entiendase por gestión el listar, crear, modificar y eliminar, tambien se podrá inscribir y eliminar profesores y alumnos de una sección, para efectos de lo solicitado cuando se trate de eliminar se hara de manera logica, esto quiere decir que al dato a eliminar se le cambiará su 'status' a 'disable'.",
+    "version": "1.0.0",
+    "title": "Actividad web service"
+  },
+  "host": "actwebservice",
+  "basePath": "/v0",
+  "tags": [
+    {
+      "name": "faculties",
+      "description": "Gestión de las facultades"
+    },
+    {
+      "name": "schools",
+      "description": "Gestión de las escuelas"
+    },
+    {
+      "name": "persons",
+      "description": "Gestión de las personas"
+    },
+    {
+      "name": "sections",
+      "description": "Gestión de las secciones"
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/faculties": {
+      "get": {
+        "tags": [
+          "faculties"
+        ],
+        "summary": "Muestra todas las facultades",
+        "description": "Retorna todas las facultades activas",
+        "operationId": "getFaculties",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operacion exitosa",
+            "schema": {
+              "$ref": "#/definitions/Faculty"
+            }
+          },
+          "404": {
+            "description": "No se ha encontrado ninguna facultad"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "faculties"
+        ],
+        "summary": "Añadir una nueva facultad",
+        "description": "",
+        "operationId": "addFaculty",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Requiere un objeto tipo facultad para añadirla",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Faculty"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "operacion exitosa"
+          },
+          "405": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/faculties/{Id}": {
+      "get": {
+        "tags": [
+          "faculties"
+        ],
+        "summary": "Encuentra una facultad por ID",
+        "description": "Retorna solo una facultad",
+        "operationId": "getFacultyById",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID de la facultad buscada",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operacion exitosa",
+            "schema": {
+              "$ref": "#/definitions/Faculty"
+            }
+          },
+          "400": {
+            "description": "Id inválido"
+          },
+          "404": {
+            "description": "Facultad no encontrada"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "faculties"
+        ],
+        "summary": "Actualizar una facultad ya existente",
+        "description": "",
+        "operationId": "updateFaculty",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "Es requerido el Id de la facultad a modificar",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "Nombre a modificar de la facultad",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "Descripción a modificar de la facultad",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operacion exitosa"
+          },
+          "400": {
+            "description": "Id inválido"
+          },
+          "404": {
+            "description": "Facultad no encontrada"
+          },
+          "405": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/facultades/{Id}/state": {
+      "put": {
+        "tags": [
+          "faculties"
+        ],
+        "summary": "Inactivar una facultad",
+        "description": "",
+        "operationId": "disableFaculty",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "Id de la facultad a inactivar",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operacion exitosa"
+          },
+          "400": {
+            "description": "Id inválido"
+          },
+          "404": {
+            "description": "Facultad no encontrada"
+          }
+        }
+      }
+    },
+    "/schools": {
+      "get": {
+        "tags": [
+          "schools"
+        ],
+        "summary": "Muestra todas las escuelas",
+        "description": "Retorna todas las escuelas activas",
+        "operationId": "getSchools",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operacion exitosa",
+            "schema": {
+              "$ref": "#/definitions/School"
+            }
+          },
+          "404": {
+            "description": "No se ha encontrado ninguna escuela"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "schools"
+        ],
+        "summary": "Añadir una nueva escuela",
+        "description": "",
+        "operationId": "addSchool",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Requiere un objeto tipo escuela para añadirla",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/School"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "operacion exitosa"
+          },
+          "405": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/schools/{Id}": {
+      "get": {
+        "tags": [
+          "schools"
+        ],
+        "summary": "Encuentra una escuela por ID",
+        "description": "Retorna solo una escuela",
+        "operationId": "getSchoolById",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID de la escuela buscada",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operacion exitosa",
+            "schema": {
+              "$ref": "#/definitions/School"
+            }
+          },
+          "400": {
+            "description": "Id inválido"
+          },
+          "404": {
+            "description": "Escuela no encontrada"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "schools"
+        ],
+        "summary": "Actualizar una escuela ya existente",
+        "description": "",
+        "operationId": "updateSchool",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "Es requerido el Id de la escuela a modificar",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "Nombre a modificar de la escuela",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "Descripción a modificar de la escuela",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operacion exitosa"
+          },
+          "400": {
+            "description": "Id inválido"
+          },
+          "404": {
+            "description": "Escuela no encontrada"
+          },
+          "405": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/schools/{Id}/state": {
+      "put": {
+        "tags": [
+          "schools"
+        ],
+        "summary": "Inactivar una escuela",
+        "description": "",
+        "operationId": "disableSchool",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "Id de la escuela a inactivar",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operacion exitosa"
+          },
+          "400": {
+            "description": "Id inválido"
+          },
+          "404": {
+            "description": "Escuela no encontrada"
+          }
+        }
+      }
+    },
+    "/persons": {
+      "get": {
+        "tags": [
+          "persons"
+        ],
+        "summary": "Muestra todas las personas",
+        "description": "Retorna todas las personas activas",
+        "operationId": "getPersons",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operacion exitosa",
+            "schema": {
+              "$ref": "#/definitions/Person"
+            }
+          },
+          "404": {
+            "description": "No se ha encontrado ninguna persona"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "persons"
+        ],
+        "summary": "Añadir una nueva persona",
+        "description": "",
+        "operationId": "addPerson",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Requiere un objeto tipo persona para añadirla",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Person"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "operacion exitosa"
+          },
+          "405": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/persons/{Id}": {
+      "get": {
+        "tags": [
+          "persons"
+        ],
+        "summary": "Encuentra una persona por ID",
+        "description": "Retorna solo una persona",
+        "operationId": "getPersonById",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID de la persona buscada",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operacion exitosa",
+            "schema": {
+              "$ref": "#/definitions/Person"
+            }
+          },
+          "400": {
+            "description": "Id inválido"
+          },
+          "404": {
+            "description": "Persona no encontrada"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "persons"
+        ],
+        "summary": "Actualizar una persona ya existente",
+        "description": "",
+        "operationId": "updatePerson",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "Es requerido el Id de la persona a modificar",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "first_name",
+            "in": "formData",
+            "description": "Nombre a modificar de la persona",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "second_name",
+            "in": "formData",
+            "description": "Apellido a modificar de la persona",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "dni",
+            "in": "formData",
+            "description": "DNI a modificar de la persona",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "enrollment",
+            "in": "formData",
+            "description": "Rol a modificar de la persona",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operacion exitosa"
+          },
+          "400": {
+            "description": "Id inválido"
+          },
+          "404": {
+            "description": "Persona no encontrada"
+          },
+          "405": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/persons/{Id}/state": {
+      "put": {
+        "tags": [
+          "persons"
+        ],
+        "summary": "Inactivar una persona",
+        "description": "",
+        "operationId": "disablePerson",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "Id de la persona a inactivar",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operacion exitosa"
+          },
+          "400": {
+            "description": "Id inválido"
+          },
+          "404": {
+            "description": "Persona no encontrada"
+          }
+        }
+      }
+    },
+    "/sections": {
+      "get": {
+        "tags": [
+          "sections"
+        ],
+        "summary": "Muestra todas las secciones",
+        "description": "Retorna todas las secciones activas",
+        "operationId": "getSections",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operacion exitosa",
+            "schema": {
+              "$ref": "#/definitions/Section"
+            }
+          },
+          "404": {
+            "description": "No se ha encontrado ninguna sección"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "sections"
+        ],
+        "summary": "Añadir una nueva sección",
+        "description": "",
+        "operationId": "addSection",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Requiere un objeto tipo seccion para añadirla",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Section"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "operacion exitosa"
+          },
+          "405": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/sections/{Id}": {
+      "get": {
+        "tags": [
+          "sections"
+        ],
+        "summary": "Encuentra una sección por ID",
+        "description": "Retorna solo una sección",
+        "operationId": "getSectionById",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID de la sección buscada",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operacion exitosa",
+            "schema": {
+              "$ref": "#/definitions/Person"
+            }
+          },
+          "400": {
+            "description": "Id inválido"
+          },
+          "404": {
+            "description": "Sección no encontrada"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "sections"
+        ],
+        "summary": "Actualizar una sección ya existente",
+        "description": "",
+        "operationId": "updateSection",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "Es requerido el Id de la sección a modificar",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "Nombre a modificar de la sección",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "Descripción a modificar de la sección",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "uc",
+            "in": "formData",
+            "description": "UC a modificar de la sección",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "semester",
+            "in": "formData",
+            "description": "Semestre a modificar de la sección",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "ht",
+            "in": "formData",
+            "description": "Horas de teoria a modificar de la sección",
+            "required": false,
+            "type": "number",
+            "format": "float"
+          },
+          {
+            "name": "hp",
+            "in": "formData",
+            "description": "Horas de practica a modificar de la sección",
+            "required": false,
+            "type": "number",
+            "format": "float"
+          },
+          {
+            "name": "hl",
+            "in": "formData",
+            "description": "Horas de laboratorio a modificar de la sección",
+            "required": false,
+            "type": "number",
+            "format": "float"
+          },
+          {
+            "name": "type",
+            "in": "formData",
+            "description": "Tipo a modificar de la sección",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operacion exitosa"
+          },
+          "400": {
+            "description": "Id inválido"
+          },
+          "404": {
+            "description": "Sección no encontrada"
+          },
+          "405": {
+            "description": "Entrada inválida"
+          }
+        }
+      }
+    },
+    "/sections/{Id}/state": {
+      "put": {
+        "tags": [
+          "sections"
+        ],
+        "summary": "Inactivar una persona",
+        "description": "",
+        "operationId": "disableSection",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "Id de la sección a inactivar",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operacion exitosa"
+          },
+          "400": {
+            "description": "Id inválido"
+          },
+          "404": {
+            "description": "Sección no encontrada"
+          }
+        }
+      }
+    },
+    "/section/person": {
+      "post": {
+        "tags": [
+          "sections"
+        ],
+        "summary": "Añadir una persona a una sección",
+        "description": "",
+        "operationId": "addPersonSection",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Requiere un objeto tipo persona_seccion para añadirla",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Person_Section"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "operacion exitosa"
+          },
+          "405": {
+            "description": "Entrada inválida"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "sections"
+        ],
+        "summary": "Inactivar una persona de una sección",
+        "description": "",
+        "operationId": "disablePersonSection",
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id_person",
+            "in": "formData",
+            "description": "Id de la persona a inactivar",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "id_section",
+            "in": "formData",
+            "description": "Id de la persona a inactivar",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operacion exitosa"
+          },
+          "400": {
+            "description": "Id inválido"
+          },
+          "404": {
+            "description": "Sección o persona no encontrada"
+          }
+        }
+      }
+    },
+    "/section/student/{Id}": {
+      "get": {
+        "tags": [
+          "sections"
+        ],
+        "summary": "Encuentra los estudiantes de una sección por ID",
+        "description": "Retorna todos los estudiantes de una sección",
+        "operationId": "getStudentsBySection",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID de la sección de los estudiantes buscados",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operacion exitosa",
+            "schema": {
+              "$ref": "#/definitions/Person"
+            }
+          },
+          "400": {
+            "description": "Id inválido"
+          },
+          "404": {
+            "description": "Sección no encontrada"
+          }
+        }
+      }
+    },
+    "/section/teacher/{Id}": {
+      "get": {
+        "tags": [
+          "sections"
+        ],
+        "summary": "Encuentra los profesores de una sección por ID",
+        "description": "Retorna todos los profesores de una sección",
+        "operationId": "getTeachersBySection",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "ID de la sección de los profesores buscados",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operacion exitosa",
+            "schema": {
+              "$ref": "#/definitions/Person"
+            }
+          },
+          "400": {
+            "description": "Id inválido"
+          },
+          "404": {
+            "description": "Sección no encontrada"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Faculty": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "status": {
+          "type": "string",
+          "description": "Estado de la facultad",
+          "enum": [
+            "activa",
+            "inactiva"
+          ]
+        },
+        "created_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "deleted_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "School": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "status": {
+          "type": "string",
+          "description": "Estado de la escuela",
+          "enum": [
+            "activa",
+            "inactiva"
+          ]
+        },
+        "created_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "deleted_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "Person": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "status": {
+          "type": "string",
+          "description": "Estado de la persona",
+          "enum": [
+            "activa",
+            "inactiva"
+          ]
+        },
+        "created_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "deleted_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "dni": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "second_name": {
+          "type": "string"
+        },
+        "enrollment": {
+          "type": "string",
+          "description": "Rol de la persona",
+          "enum": [
+            "estudiante",
+            "profesor"
+          ]
+        }
+      }
+    },
+    "Section": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "status": {
+          "type": "string",
+          "description": "Estado de la persona",
+          "enum": [
+            "activa",
+            "inactiva"
+          ]
+        },
+        "created_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "deleted_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "uc": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "semester": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "ht": {
+          "type": "number",
+          "format": "float"
+        },
+        "hp": {
+          "type": "number",
+          "format": "float"
+        },
+        "hl": {
+          "type": "number",
+          "format": "float"
+        },
+        "type": {
+          "type": "string",
+          "description": "Tipo de la sección",
+          "enum": [
+            "obligatoria",
+            "electiva"
+          ]
+        }
+      }
+    },
+    "Person_Section": {
+      "type": "object",
+      "properties": {
+        "id_person": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "id_section": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "status": {
+          "type": "string",
+          "description": "Estado de la persona",
+          "enum": [
+            "activa",
+            "inactiva"
+          ]
+        },
+        "created_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "deleted_date": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    }
+  }
+}
