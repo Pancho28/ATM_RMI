@@ -21,6 +21,8 @@ public class Bank extends UnicastRemoteObject implements ATM {
             result = con.consultarusuariobd(doc);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(Exception e){
+                System.out.println("Conexión no exitosa "+e.getMessage());        
         }
         return (result);
     }
@@ -33,6 +35,8 @@ public class Bank extends UnicastRemoteObject implements ATM {
             result = con.loginbd(user, pass);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(Exception e){
+                System.out.println("Conexión no exitosa "+e.getMessage());        
         }
         return result;
     }
@@ -44,6 +48,8 @@ public class Bank extends UnicastRemoteObject implements ATM {
             con.crearprimcuentabd(name, user, pass, doc_id, monto);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(Exception e){
+                System.out.println("Conexión no exitosa "+e.getMessage());        
         }
     }
     
@@ -54,6 +60,8 @@ public class Bank extends UnicastRemoteObject implements ATM {
             con.crearcuentabd(doc_id, monto);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(Exception e){
+                System.out.println("Conexión no exitosa "+e.getMessage());        
         }
     }
     
@@ -65,6 +73,8 @@ public class Bank extends UnicastRemoteObject implements ATM {
             result = con.consultarcuentasbd(doc_id);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(Exception e){
+                System.out.println("Conexión no exitosa "+e.getMessage());        
         }
         return result;
     }
@@ -76,6 +86,8 @@ public class Bank extends UnicastRemoteObject implements ATM {
             con.depositarbd(cuenta, monto);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(Exception e){
+                System.out.println("Conexión no exitosa "+e.getMessage());        
         }
     }
     
@@ -86,6 +98,8 @@ public class Bank extends UnicastRemoteObject implements ATM {
             con.retirarbd(cuenta, monto);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(Exception e){
+                System.out.println("Conexión no exitosa "+e.getMessage());        
         }
     }
     
@@ -96,6 +110,8 @@ public class Bank extends UnicastRemoteObject implements ATM {
             con.transferirbd(cuenta, monto,cuentab,doc_id,desc);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(Exception e){
+                System.out.println("Conexión no exitosa "+e.getMessage());        
         }
     }
     
@@ -107,6 +123,8 @@ public class Bank extends UnicastRemoteObject implements ATM {
             result = con.verifcuentabd(doc_id);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(Exception e){
+                System.out.println("Conexión no exitosa "+e.getMessage());        
         }
         return result;
     
@@ -120,6 +138,8 @@ public class Bank extends UnicastRemoteObject implements ATM {
             result = con.verifdoccuentabd(doc_id, cuenta);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(Exception e){
+                System.out.println("Conexión no exitosa "+e.getMessage());        
         }
         return result;
     }

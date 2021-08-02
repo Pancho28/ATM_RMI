@@ -30,9 +30,11 @@ public class Conexion {
             if (con != null){
                 System.out.println("Conectando...");
             }
-        }catch (SQLException e){
-                System.out.println("Conexión no exitosa "+e.getMessage());
+        }catch (SQLException es){
+                System.out.println("Conexión no exitosa "+es.getMessage());
         
+        }catch(Exception e){
+                System.out.println("Conexión no exitosa "+e.getMessage());        
         }
     }
     
@@ -49,8 +51,11 @@ public class Conexion {
             while (rs.next()==true){
                 result = rs.getString("name_");
             }
-        }catch (SQLException e){
-            System.out.println(e.getMessage());
+        }catch (SQLException es){
+                System.out.println("Conexión no exitosa "+es.getMessage());
+        
+        }catch(Exception e){
+                System.out.println("Conexión no exitosa "+e.getMessage());        
         }
         return (result);
     }
@@ -69,8 +74,11 @@ public class Conexion {
             while (rs.next()==true){
                 result = rs.getString("document_id");
             }
-        }catch (SQLException e){
-            System.out.println(e.getMessage());
+        }catch (SQLException es){
+                System.out.println("Conexión no exitosa "+es.getMessage());
+        
+        }catch(Exception e){
+                System.out.println("Conexión no exitosa "+e.getMessage());        
         }
         return (result);
     }
@@ -84,8 +92,11 @@ public class Conexion {
             ejecutor.setQueryTimeout(20);
             ejecutor.executeUpdate(query);
             crearcuentabd(doc_id,monto);
-        }catch (SQLException e){
-            System.out.println(e.getMessage());
+        }catch (SQLException es){
+                System.out.println("Conexión no exitosa "+es.getMessage());
+        
+        }catch(Exception e){
+                System.out.println("Conexión no exitosa "+e.getMessage());        
         }
     }
 
@@ -106,8 +117,11 @@ public class Conexion {
             if (result!=""){
                 result = rs.getString("id");
             }
-        }catch (SQLException e){
-            System.out.println(e.getMessage());
+        }catch (SQLException es){
+                System.out.println("Conexión no exitosa "+es.getMessage());
+        
+        }catch(Exception e){
+                System.out.println("Conexión no exitosa "+e.getMessage());        
         }
         return (result);
     }
@@ -123,8 +137,11 @@ public class Conexion {
             ejecutor.executeUpdate(query);
             cuenta = ultimacuenta();
             depositarbd(cuenta,monto);
-        }catch (SQLException e){
-            System.out.println(e.getMessage());
+        }catch (SQLException es){
+                System.out.println("Conexión no exitosa "+es.getMessage());
+        
+        }catch(Exception e){
+                System.out.println("Conexión no exitosa "+e.getMessage());        
         }
     }
 
@@ -144,8 +161,11 @@ public class Conexion {
                 result[i+1] = rs.getString("current_balace");
                 i = i + 2;
             }
-        }catch (SQLException e){
-            System.out.println(e.getMessage());
+        }catch (SQLException es){
+                System.out.println("Conexión no exitosa "+es.getMessage());
+        
+        }catch(Exception e){
+                System.out.println("Conexión no exitosa "+e.getMessage());        
         }
         return (result);
     }
@@ -161,8 +181,11 @@ public class Conexion {
             ejecutor.executeUpdate(query);
             query = "update Account set current_balace = current_balace+"+monto+" where number_="+cuenta;
             ejecutor.executeUpdate(query);
-        }catch (SQLException e){
-            System.out.println(e.getMessage());
+        }catch (SQLException es){
+                System.out.println("Conexión no exitosa "+es.getMessage());
+        
+        }catch(Exception e){
+                System.out.println("Conexión no exitosa "+e.getMessage());        
         }
     }
 
@@ -177,8 +200,11 @@ public class Conexion {
             ejecutor.executeUpdate(query);
             query = "update Account set current_balace = current_balace-"+monto+" where number_="+cuenta;
             ejecutor.executeUpdate(query);
-        }catch (SQLException e){
-            System.out.println(e.getMessage());
+        }catch (SQLException es){
+                System.out.println("Conexión no exitosa "+es.getMessage());
+        
+        }catch(Exception e){
+                System.out.println("Conexión no exitosa "+e.getMessage());        
         }
     }
     
@@ -195,8 +221,11 @@ public class Conexion {
             ejecutor.executeUpdate(query);
             query = "update Account set current_balace = current_balace-"+monto+" where number_="+cuenta;
             ejecutor.executeUpdate(query);
-        }catch (SQLException e){
-            System.out.println(e.getMessage());
+        }catch (SQLException es){
+                System.out.println("Conexión no exitosa "+es.getMessage());
+        
+        }catch(Exception e){
+                System.out.println("Conexión no exitosa "+e.getMessage());        
         }
     }
 
@@ -215,8 +244,11 @@ public class Conexion {
                 result = rs.getString("count(number_)");
             }
             num = Integer.parseInt(result);
-        }catch (SQLException e){
-            System.out.println(e.getMessage());
+        }catch (SQLException es){
+                System.out.println("Conexión no exitosa "+es.getMessage());
+        
+        }catch(Exception e){
+                System.out.println("Conexión no exitosa "+e.getMessage());        
         }
         return (num);
     } 
@@ -238,8 +270,11 @@ public class Conexion {
                     result = true;
                 }
             }
-        }catch(SQLException e){
-            System.out.println(e.getMessage());
+        }catch (SQLException es){
+                System.out.println("Conexión no exitosa "+es.getMessage());
+        
+        }catch(Exception e){
+                System.out.println("Conexión no exitosa "+e.getMessage());        
         }
         return (result);
     }

@@ -139,7 +139,7 @@ public class AbrirCuenta extends javax.swing.JFrame {
                 au.setVisible(true);
                 this.setVisible(false);
             }if (res==3){
-                JOptionPane.showMessageDialog(null,"Usted ya posse el limite de cuentas permitidas, sera redirigido al menu anterior");
+                JOptionPane.showMessageDialog(null,"Usted ya posse tres cuentas que es el limite permitido, sera redirigido al menu anterior");
                 MenuB mb = new MenuB();
                 mb.setVisible(true);
                 this.setVisible(false);

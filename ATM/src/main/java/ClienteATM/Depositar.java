@@ -158,8 +158,8 @@ public class Depositar extends javax.swing.JFrame {
             this.monto = txtmonto.getText();
             Pattern p = Pattern.compile("[A-Z,a-z,&%$#@!()*^]"); 
             Matcher m = p.matcher(this.monto);
-            if (m.find()){
-                JOptionPane.showMessageDialog(null, "Por favor ingrese solo numeros");
+            if (m.find()|| Float.parseFloat(this.monto)<0){
+                JOptionPane.showMessageDialog(null, "Por favor ingrese solo numeros positivos");
                 txtmonto.setText("");
                 return;
             }
